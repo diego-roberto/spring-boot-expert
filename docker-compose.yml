@@ -1,0 +1,61 @@
+version: '3.7'
+networks:
+  network:
+    driver: bridge
+
+services:
+  # DATABASE - MySQL
+  mysql:
+    image: mysql
+    container_name: mysql
+    hostname: mysqldb
+    volumes:
+      - '/data/dev/spring-expert/mysql:/var/lib/mysql:rw'
+    environment:
+      SERVICE_NAME: mysql
+      MYSQL_DATABASE: vendas_db
+      MYSQL_USER: project_usr
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      TZ: America/Sao_Paulo
+    ports:
+      - '3306:3306'
+    networks:
+      - network
+    restart: always
+
+  # BACKEND - vendas-api
+  vendas-api:
+    image: 'spring-expert/vendas-api:latest'
+    build:
+      context: ./vendas-api
+      dockerfile: docker/Dockerfile
+    container_name: vendas-api
+    hostname: vendas-api
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://mysql:3306/vendas_db'
+      DB_DRIVER_CLASS: org.mysql.jdbc.Driver
+      DB_BASE_URL: 'jdbc:mysql://localhost:3306/'
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: password
+      DB_ROOT_USER: root
+      DB_ROOT_PASS: password
+      CORS_ORIGIN: '*'
+      CORS_WEBSOCKET_ALLOWED_HOST: '*'
+      CORS_METHODS: 'GET,POST,PUT,PATCH,DELETE,OPTIONS,HEAD'
+      CORS_ALLOW_HEADERS: 'Authorization,Content-Type,X-Authorization,authorization,content-type,x-authorization'
+      CORS_ALLOW_CREDENTIALS: 'true'
+      SERVICE_NAME: vendas-api
+      TZ: America/Sao_Paulo
+    volumes:
+      - './vendas-api:/app'
+      - './vendas-api/.m2:/root/.m2'
+    working_dir: /app
+    networks:
+      - network
+    depends_on:
+      - mysql
+    ports:
+      - '8401:8080'
+    restart: always
