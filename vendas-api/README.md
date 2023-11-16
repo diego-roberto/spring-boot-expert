@@ -1,10 +1,10 @@
 # BACKEND
 
-API em spring-boot, MVC, utiliza Java 1.8.
+API em spring boot, MVC, utiliza Java 1.8.
 
 ### Executando em ambiente local
 
-Para executar essa aplicação em modo local, primeiro certifique-se que os containers `traefik` e `mysql` estão em execução.
+Para executar essa aplicação em modo local, primeiro certifique-se que os containers `mysql` estão em execução.
 
 Na raiz da pasta do projeto, execute:
 > docker-compose up mysql
@@ -35,4 +35,13 @@ Execute os seguintes comandos dentro da pasta raiz do `vendas-api`:
 - `sudo chmod -R 777 ./logs`
 - `sudo chmod -R 777 ./.m2`
 
+### Cadastrando um usuário:
 
+utilizando a requisição:
+`http://localhost:8080/api/users`
+```json
+{
+  "login": "usuario",
+  "password": "secreta123"
+}
+```

@@ -44,8 +44,8 @@ alter table `order_items`
 
 create table `users` (
     id       int auto_increment not null,
-    login    varchar(255)       null,
-    password varchar(255)       null,
-    admin    bit(1)             null,
+    login    varchar(50)    null,
+    password varchar(255)   null,
+    admin    bit(1)         default false,
     constraint pk_users primary key (id)
 );
