@@ -1,5 +1,6 @@
 package io.github.diegoroberto.service.implement;
 
+import io.github.diegoroberto.config.InternationalizationConfig;
 import io.github.diegoroberto.domain.entity.Client;
 import io.github.diegoroberto.domain.entity.Order;
 import io.github.diegoroberto.domain.entity.OrderItem;
@@ -39,6 +40,8 @@ public class OrderServiceImpl implements OrderService {
 
     private final ModelMapper modelMapper;
 
+    private final InternationalizationConfig i18n;
+
 
     @Override
     @Transactional
@@ -46,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
         Long clientId = dto.getClient();
         Client client = clientRepository
                 .findById(clientId)
-                .orElseThrow(() -> new BusinessException("Código de cliente inválido."));
+                .orElseThrow(() -> new BusinessException(i18n.getMessage("msg.client.invalid-id")));
 
         Order order = new Order();
         order.setTotal(dto.getTotal());
@@ -70,7 +73,10 @@ public class OrderServiceImpl implements OrderService {
                     orderInfoDTO.setItems(convertToOrderItemInfoDTOList(order.getItems()));
                     return orderInfoDTO;
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido não encontrado."));
+                .orElseThrow(() -> new ResponseStatusException(
+                                            HttpStatus.NOT_FOUND,
+                                            i18n.getMessage("msg.order.not-found"))
+                );
     }
 
     @Override
@@ -81,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
                 .map( order -> {
                     order.setStatus(status);
                     return orderRepository.save(order);
-                }).orElseThrow(OrderNotFoundException::new);
+                }).orElseThrow(() -> new OrderNotFoundException(i18n.getMessage("msg.order.not-found")));
     }
 
     private OrderInfoDTO convertToOrderInfoDTO(Order order) {
@@ -99,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
 
     private List<OrderItem> convertItems(Order order, List<OrderItem> items){
         if(items.isEmpty()){
-            throw new BusinessException("Não é possível realizar um pedido sem produtos.");
+            throw new BusinessException(i18n.getMessage("msg.order.empty"));
         }
 
         return items
@@ -108,7 +114,7 @@ public class OrderServiceImpl implements OrderService {
                     Long productId = dto.getProduct().getId();
                     Product product = productRepository
                             .findById(productId)
-                            .orElseThrow(() -> new BusinessException("Código de produto inválido: "+ productId));
+                            .orElseThrow(() -> new BusinessException(i18n.getMessage("msg.product.invalid")+": "+ productId));
 
                     OrderItem orderItem = modelMapper.map(dto, OrderItem.class);
                     orderItem.setOrder(order);

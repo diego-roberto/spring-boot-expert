@@ -1,12 +1,6 @@
 package io.github.diegoroberto.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -15,20 +9,25 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity
 @Table(name="users")
-public class LoginUser {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column
-    @NotEmpty(message = "{campo.login.obrigatorio}")
+    @NotEmpty(message = "{field.login.required}")
     private String login;
+
     @Column
-    @NotEmpty(message = "{campo.senha.obrigatorio}")
+    @NotEmpty(message = "{field.password.required}")
     private String password;
+
     @Column
     private boolean admin;
+
 
 }

@@ -1,5 +1,6 @@
 package io.github.diegoroberto.service.implement;
 
+import io.github.diegoroberto.config.InternationalizationConfig;
 import io.github.diegoroberto.domain.entity.Product;
 import io.github.diegoroberto.domain.repository.ProductRepository;
 import io.github.diegoroberto.exception.BusinessException;
@@ -24,6 +25,8 @@ public class ProductServiceImpl implements ProductService {
 
     private final ModelMapper modelMapper;
 
+    private final InternationalizationConfig i18n;
+
     @Override
     public Optional<ProductDTO> findById(Long id) {
         Optional<Product> optional = productRepository.findById(id);
@@ -32,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
             ProductDTO clientDTO = modelMapper.map(optional.get(), ProductDTO.class);
             return Optional.ofNullable(clientDTO);
         } else {
-            throw new BusinessException("Cliente não encontrado.");
+            throw new BusinessException(i18n.getMessage("msg.product.not-found"));
         }
     }
 
@@ -52,12 +55,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> findAll(Example<ProductDTO> example) {
         if (example == null) {
-            throw new IllegalArgumentException("parâmetro não pode ser nulo.");
+            throw new IllegalArgumentException(i18n.getMessage("msg.validation.null"));
         }
-        List<Product> products = productRepository.findAll((Example) example);
+
+        Example<Product> exampleEntity = Example.of(modelMapper.map(example, Product.class));
+        List<Product> products = productRepository.findAll(exampleEntity);
 
         if (products.isEmpty()) {
-            throw new NoResultsException("Nenhum produto encontrado com os parâmetros fornecidos.");
+            throw new NoResultsException(i18n.getMessage("msg.validation.not-found"));
         }
         return products.stream()
                 .map(product -> modelMapper.map(product, ProductDTO.class))

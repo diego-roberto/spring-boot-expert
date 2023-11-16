@@ -12,6 +12,7 @@ public interface ClientService {
     ClientDTO save(ClientDTO dto);
 
     void delete(ClientDTO dto);
+    public List<ClientDTO> findAll();
 
     List<ClientDTO> findAll(Example<ClientDTO> example);
 }

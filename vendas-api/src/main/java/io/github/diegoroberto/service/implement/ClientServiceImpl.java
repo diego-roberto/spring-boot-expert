@@ -1,5 +1,6 @@
 package io.github.diegoroberto.service.implement;
 
+import io.github.diegoroberto.config.InternationalizationConfig;
 import io.github.diegoroberto.domain.entity.Client;
 import io.github.diegoroberto.domain.repository.ClientRepository;
 import io.github.diegoroberto.exception.BusinessException;
@@ -24,6 +25,8 @@ public class ClientServiceImpl implements ClientService {
 
     private final ModelMapper modelMapper;
 
+    private final InternationalizationConfig i18n;
+
     @Override
     public Optional<ClientDTO> findById(Long id) {
         Optional<Client> optional = clientRepository.findById(id);
@@ -32,8 +35,16 @@ public class ClientServiceImpl implements ClientService {
             ClientDTO clientDTO = modelMapper.map(optional.get(), ClientDTO.class);
             return Optional.ofNullable(clientDTO);
         } else {
-            throw new BusinessException("Cliente não encontrado.");
+            throw new BusinessException(i18n.getMessage("msg.client.not-found"));
         }
+    }
+
+    @Override
+    public List<ClientDTO> findAll(){
+        List<Client> clients = clientRepository.findAll();
+        return clients.stream()
+                .map(client -> modelMapper.map(client, ClientDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -52,12 +63,14 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<ClientDTO> findAll(Example<ClientDTO> example) {
         if (example == null) {
-            throw new IllegalArgumentException("O parâmetro não pode ser nulo.");
+            throw new IllegalArgumentException(i18n.getMessage("msg.validation.null"));
         }
-        List<Client> clients = clientRepository.findAll((Example) example);
+
+        Example<Client> exampleEntity = Example.of(modelMapper.map(example, Client.class));
+        List<Client> clients = clientRepository.findAll(exampleEntity);
 
         if (clients.isEmpty()) {
-            throw new NoResultsException("Nenhum cliente encontrado com o parâmetro fornecido.");
+            throw new NoResultsException(i18n.getMessage("msg.validation.not-found"));
         }
         return clients.stream()
                 .map(client -> modelMapper.map(client, ClientDTO.class))
