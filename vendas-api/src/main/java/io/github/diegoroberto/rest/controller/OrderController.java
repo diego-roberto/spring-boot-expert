@@ -9,30 +9,27 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/orders")
 @Api("API Pedidos")
 public class OrderController {
 
     private final OrderService orderService;
 
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
-
-    private static final String NOT_FOUND = "Pedido não encontrado";
-    private static final String FOUND = "Pedido encontrado";
 
     @GetMapping("{id}")
     @ApiOperation("Obter detalhes de um pedido")
     @ApiResponses({
-            @ApiResponse(code = 200, message = FOUND),
-            @ApiResponse(code = 404, message = NOT_FOUND + "para o ID informado")
+            @ApiResponse(code = 200, message = "{msg.order.found}"),
+            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
+            @ApiResponse(code = 404, message = "{msg.order.not-found}")
     })
     public OrderInfoDTO getById(@PathVariable Long id) {
         return orderService.getFullOrder(id);
@@ -40,6 +37,12 @@ public class OrderController {
 
     @PatchMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation("Atualizar status do pedido")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "{msg.order.success}"),
+            @ApiResponse(code = 400, message = "{msg.validation.error}"),
+            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}")
+    })
     public void updateStatus(@PathVariable Long id,
                              @RequestBody OderStatusUpdateDTO dto) {
         String novoStatus = dto.getNewStatus();
@@ -50,8 +53,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Salvar um novo pedido")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "pedido salvo com sucesso"),
-            @ApiResponse(code = 400, message = "Erro de validação")
+            @ApiResponse(code = 201, message = "{msg.order.success}"),
+            @ApiResponse(code = 400, message = "{msg.validation.error}"),
+            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
     })
     public Long save(@RequestBody @Valid OrderDTO dto) {
         return orderService.save(dto);
