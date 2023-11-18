@@ -58,6 +58,17 @@ public class ClientController {
         return clientService.findAll(example);
     }
 
+    @GetMapping("/all")
+    @ApiOperation("Busca todos os clientes")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "{msg.client.found}"),
+            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
+            @ApiResponse(code = 404, message = "{msg.client.none-found}")
+    })
+    public List<ClientDTO> findAll(){
+        return clientService.findAll();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Salvar um novo cliente")
