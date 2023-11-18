@@ -27,13 +27,13 @@ public class ClientController {
     @GetMapping("{id}")
     @ApiOperation("Obter detalhes de um cliente")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{msg.client.found}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
-            @ApiResponse(code = 404, message = "{msg.client.not-found}")
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 404, message = "")
     })
     public ClientDTO getClienteById(
             @PathVariable
-            @ApiParam("Id do cliente") Long id ){
+            @ApiParam("Id do cliente") Long id){
         return clientService
                 .findById(id)
                 .orElseThrow(() ->
@@ -43,9 +43,9 @@ public class ClientController {
     @GetMapping
     @ApiOperation("Buscar clientes com parâmetros")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{msg.client.found}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
-            @ApiResponse(code = 404, message = "{msg.client.none-found}")
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 404, message = "")
     })
     public List<ClientDTO> find(ClientDTO params){
         ExampleMatcher matcher = ExampleMatcher
@@ -61,9 +61,9 @@ public class ClientController {
     @GetMapping("/all")
     @ApiOperation("Busca todos os clientes")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{msg.client.found}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
-            @ApiResponse(code = 404, message = "{msg.client.none-found}")
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 404, message = "")
     })
     public List<ClientDTO> findAll(){
         return clientService.findAll();
@@ -73,9 +73,9 @@ public class ClientController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Salvar um novo cliente")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "{msg.client.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}")
+            @ApiResponse(code = 201, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = "")
     })
     public ClientDTO save(@RequestBody @Valid ClientDTO dto){
         return clientService.save(dto);
@@ -86,11 +86,11 @@ public class ClientController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation("Atualizar um cliente")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{msg.client.success}"),
-            @ApiResponse(code = 201, message = "{msg.client.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
-            @ApiResponse(code = 404, message = "{msg.client.not-found}")
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 201, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 404, message = "")
     })
     public void update( @PathVariable Long id,
                         @RequestBody @Valid ClientDTO dto){
@@ -106,11 +106,12 @@ public class ClientController {
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation("Excluir um cliente")
     @ApiResponses({
-            @ApiResponse(code = 204, message = "{msg.client.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
-            @ApiResponse(code = 404, message = "{msg.client.not-found}")
+            @ApiResponse(code = 204, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 404, message = "")
     })
     public void delete( @PathVariable Long id){
         clientService.findById(id)

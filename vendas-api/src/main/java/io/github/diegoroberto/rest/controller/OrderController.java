@@ -27,9 +27,9 @@ public class OrderController {
     @GetMapping("{id}")
     @ApiOperation("Obter detalhes de um pedido")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{msg.order.found}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
-            @ApiResponse(code = 404, message = "{msg.order.not-found}")
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 404, message = "")
     })
     public OrderInfoDTO getById(@PathVariable Long id) {
         return orderService.getFullOrder(id);
@@ -39,9 +39,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation("Atualizar status do pedido")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "{msg.order.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}")
+            @ApiResponse(code = 201, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = "")
     })
     public void updateStatus(@PathVariable Long id,
                              @RequestBody OderStatusUpdateDTO dto) {
@@ -53,9 +53,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Salvar um novo pedido")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "{msg.order.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
+            @ApiResponse(code = 201, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = ""),
     })
     public Long save(@RequestBody @Valid OrderDTO dto) {
         return orderService.save(dto);

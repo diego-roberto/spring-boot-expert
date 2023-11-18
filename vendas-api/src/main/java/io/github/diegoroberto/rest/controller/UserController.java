@@ -34,10 +34,10 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation("Salva um novo user")
+    @ApiOperation("Salvar um novo user")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "{msg.user.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}")
+            @ApiResponse(code = 201, message = ""),
+            @ApiResponse(code = 400, message = "")
     })
     public UserDTO save(@RequestBody @Valid UserDTO user){
         String encrypted = encoder.encode(user.getPassword());
@@ -47,12 +47,12 @@ public class UserController {
 
     @PostMapping("/auth")
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation("Realiza a autenticação")
+    @ApiOperation("Realizar autenticação")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{msg.user.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}"),
-            @ApiResponse(code = 401, message = "{msg.auth.login-not-found}"),
-            @ApiResponse(code = 403, message = "{msg.auth.invalid-password}")
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 403, message = "")
     })
     public TokenDTO authenticate(@RequestBody @Valid LoginDTO dto){
         try {
@@ -73,10 +73,10 @@ public class UserController {
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation("Obtém lista de usuários *debug*")
+    @ApiOperation("Obter lista de usuários *debug*")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{msg.user.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}")
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 400, message = "")
     })
     public List<UserDTO> findAll(){
         return userService.findAll();

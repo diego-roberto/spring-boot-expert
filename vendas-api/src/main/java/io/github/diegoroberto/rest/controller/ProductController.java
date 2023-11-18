@@ -25,9 +25,9 @@ public class ProductController {
     @GetMapping("{id}")
     @ApiOperation("Obter detalhes de um produto")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{msg.product.found}"),
-            @ApiResponse(code = 404, message = "{msg.product.not-found}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 404, message = ""),
+            @ApiResponse(code = 401, message = ""),
     })
     public ProductDTO getProductById(
             @PathVariable
@@ -41,9 +41,9 @@ public class ProductController {
     @GetMapping
     @ApiOperation("Buscar produtos com parâmetros")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{msg.product.found}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
-            @ApiResponse(code = 404, message = "{msg.product.none-found}")
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 404, message = "")
     })
     public List<ProductDTO> find(ProductDTO params){
         ExampleMatcher matcher = ExampleMatcher
@@ -58,25 +58,25 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation("Salva um novo produto")
+    @ApiOperation("Salvar um novo produto")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "{msg.product.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
+            @ApiResponse(code = 201, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = ""),
     })
     public ProductDTO save(@RequestBody @Valid ProductDTO dto){
         return productService.save(dto);
     }
 
     @PutMapping("{id}")
-    @ApiOperation("Atualiza um produto")
+    @ApiOperation("Atualizar um produto")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses({
-            @ApiResponse(code = 200, message = "{msg.product.success}"),
-            @ApiResponse(code = 201, message = "{msg.product.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
-            @ApiResponse(code = 404, message = "{msg.product.not-found}")
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 201, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 404, message = "")
     })
     public void update( @PathVariable Long id,
                         @RequestBody @Valid ProductDTO dto){
@@ -91,13 +91,13 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    @ApiOperation("Exclui um produto")
+    @ApiOperation("Excluir um produto")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses({
-            @ApiResponse(code = 204, message = "{msg.product.success}"),
-            @ApiResponse(code = 400, message = "{msg.validation.error}"),
-            @ApiResponse(code = 401, message = "{msg.auth.unauthorized}"),
-            @ApiResponse(code = 404, message = "{msg.product.not-found}")
+            @ApiResponse(code = 204, message = ""),
+            @ApiResponse(code = 400, message = ""),
+            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 404, message = "")
     })
     public void delete( @PathVariable Long id){
         productService.findById(id)
