@@ -1,4 +1,4 @@
-package io.github.diegoroberto.constants;
+package io.github.diegoroberto.constant;
 
 
 public class RoleConstants {
