@@ -1,5 +1,6 @@
 package io.github.diegoroberto.rest.controller;
 
+import io.github.diegoroberto.constant.MessageConstants;
 import io.github.diegoroberto.domain.entity.User;
 import io.github.diegoroberto.exception.InvalidPasswordException;
 import io.github.diegoroberto.rest.dto.LoginDTO;
@@ -36,8 +37,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Salvar um novo user")
     @ApiResponses({
-            @ApiResponse(code = 201, message = ""),
-            @ApiResponse(code = 400, message = "")
+            @ApiResponse(code = 201, message = MessageConstants.MSG_USER_SUCCESS),
+            @ApiResponse(code = 400, message = MessageConstants.MSG_VALIDATION_ERROR)
     })
     public UserDTO save(@RequestBody @Valid UserDTO user){
         String encrypted = encoder.encode(user.getPassword());
@@ -49,10 +50,10 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Realizar autenticação")
     @ApiResponses({
-            @ApiResponse(code = 200, message = ""),
-            @ApiResponse(code = 400, message = ""),
-            @ApiResponse(code = 401, message = ""),
-            @ApiResponse(code = 403, message = "")
+            @ApiResponse(code = 200, message = MessageConstants.MSG_USER_SUCCESS),
+            @ApiResponse(code = 400, message = MessageConstants.MSG_VALIDATION_ERROR),
+            @ApiResponse(code = 401, message = MessageConstants.MSG_AUTH_LOGIN_NOT_FOUND),
+            @ApiResponse(code = 403, message = MessageConstants.MSG_AUTH_INVALID_PASSWORD)
     })
     public TokenDTO authenticate(@RequestBody @Valid LoginDTO dto){
         try {
@@ -75,8 +76,8 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation("Obter lista de usuários *debug*")
     @ApiResponses({
-            @ApiResponse(code = 200, message = ""),
-            @ApiResponse(code = 400, message = "")
+            @ApiResponse(code = 200, message = MessageConstants.MSG_USER_SUCCESS),
+            @ApiResponse(code = 400, message = MessageConstants.MSG_VALIDATION_ERROR)
     })
     public List<UserDTO> findAll(){
         return userService.findAll();

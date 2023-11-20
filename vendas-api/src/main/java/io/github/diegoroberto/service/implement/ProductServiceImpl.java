@@ -1,6 +1,6 @@
 package io.github.diegoroberto.service.implement;
 
-import io.github.diegoroberto.config.InternationalizationConfig;
+import io.github.diegoroberto.config.internationalization.InternationalizationConfig;
 import io.github.diegoroberto.domain.entity.Product;
 import io.github.diegoroberto.domain.repository.ProductRepository;
 import io.github.diegoroberto.exception.BusinessException;

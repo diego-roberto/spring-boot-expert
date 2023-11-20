@@ -1,4 +1,4 @@
-package io.github.diegoroberto.config;
+package io.github.diegoroberto.config.internationalization;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -16,12 +16,23 @@ public class InternationalizationConfig {
         ReloadableResourceBundleMessageSource ms = new ReloadableResourceBundleMessageSource();
         ms.setBasename("classpath:messages");
         ms.setDefaultEncoding("ISO-8859-1");
-        ms.setDefaultLocale(Locale.getDefault()); //para alterar o idioma, alterar o param setado | default pega do sistema
+        ms.setDefaultLocale(contextLocale());
         return ms;
     }
-    
+
     public String getMessage(String msg) {
-        return messageSource().getMessage(msg, null, Locale.getDefault());
+        return messageSource().getMessage(msg, null, contextLocale());
+    }
+
+    @Bean
+    public Locale contextLocale(){
+            //getDefault pega do sistema
+        return Locale.getDefault();
+    }
+
+    public void setLocale(Locale newLocale){
+            //para alterar o idioma, alterar o param setado
+        Locale.setDefault(newLocale);
     }
 
     @Bean

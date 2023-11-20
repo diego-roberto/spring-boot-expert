@@ -1,7 +1,7 @@
 package io.github.diegoroberto.service.implement;
 
-import io.github.diegoroberto.config.InternationalizationConfig;
-import io.github.diegoroberto.constants.RoleConstants;
+import io.github.diegoroberto.config.internationalization.InternationalizationConfig;
+import io.github.diegoroberto.constant.RoleConstants;
 import io.github.diegoroberto.domain.entity.User;
 import io.github.diegoroberto.domain.repository.UserRepository;
 import io.github.diegoroberto.exception.BusinessException;

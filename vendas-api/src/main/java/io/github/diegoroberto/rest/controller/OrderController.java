@@ -1,5 +1,6 @@
 package io.github.diegoroberto.rest.controller;
 
+import io.github.diegoroberto.constant.MessageConstants;
 import io.github.diegoroberto.domain.enums.OrderStatus;
 import io.github.diegoroberto.rest.dto.OderStatusUpdateDTO;
 import io.github.diegoroberto.rest.dto.OrderDTO;
@@ -27,9 +28,9 @@ public class OrderController {
     @GetMapping("{id}")
     @ApiOperation("Obter detalhes de um pedido")
     @ApiResponses({
-            @ApiResponse(code = 200, message = ""),
-            @ApiResponse(code = 401, message = ""),
-            @ApiResponse(code = 404, message = "")
+            @ApiResponse(code = 200, message = MessageConstants.MSG_ORDER_FOUND),
+            @ApiResponse(code = 401, message = MessageConstants.MSG_AUTH_UNAUTHORIZED),
+            @ApiResponse(code = 404, message = MessageConstants.MSG_ORDER_NOT_FOUND)
     })
     public OrderInfoDTO getById(@PathVariable Long id) {
         return orderService.getFullOrder(id);
@@ -39,9 +40,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation("Atualizar status do pedido")
     @ApiResponses({
-            @ApiResponse(code = 201, message = ""),
-            @ApiResponse(code = 400, message = ""),
-            @ApiResponse(code = 401, message = "")
+            @ApiResponse(code = 201, message = MessageConstants.MSG_ORDER_SUCCESS),
+            @ApiResponse(code = 400, message = MessageConstants.MSG_VALIDATION_ERROR),
+            @ApiResponse(code = 401, message = MessageConstants.MSG_AUTH_UNAUTHORIZED)
     })
     public void updateStatus(@PathVariable Long id,
                              @RequestBody OderStatusUpdateDTO dto) {
@@ -53,9 +54,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Salvar um novo pedido")
     @ApiResponses({
-            @ApiResponse(code = 201, message = ""),
-            @ApiResponse(code = 400, message = ""),
-            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 201, message = MessageConstants.MSG_ORDER_SUCCESS),
+            @ApiResponse(code = 400, message = MessageConstants.MSG_VALIDATION_ERROR),
+            @ApiResponse(code = 401, message = MessageConstants.MSG_AUTH_UNAUTHORIZED),
     })
     public Long save(@RequestBody @Valid OrderDTO dto) {
         return orderService.save(dto);

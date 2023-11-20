@@ -1,5 +1,6 @@
 package io.github.diegoroberto.rest.controller;
 
+import io.github.diegoroberto.constant.MessageConstants;
 import io.github.diegoroberto.rest.dto.ProductDTO;
 import io.github.diegoroberto.service.implement.ProductServiceImpl;
 import io.swagger.annotations.*;
@@ -25,9 +26,9 @@ public class ProductController {
     @GetMapping("{id}")
     @ApiOperation("Obter detalhes de um produto")
     @ApiResponses({
-            @ApiResponse(code = 200, message = ""),
-            @ApiResponse(code = 404, message = ""),
-            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 200, message = MessageConstants.MSG_PRODUCT_FOUND),
+            @ApiResponse(code = 404, message = MessageConstants.MSG_PRODUCT_NOT_FOUND),
+            @ApiResponse(code = 401, message = MessageConstants.MSG_AUTH_UNAUTHORIZED),
     })
     public ProductDTO getProductById(
             @PathVariable
@@ -41,9 +42,10 @@ public class ProductController {
     @GetMapping
     @ApiOperation("Buscar produtos com parâmetros")
     @ApiResponses({
-            @ApiResponse(code = 200, message = ""),
-            @ApiResponse(code = 401, message = ""),
-            @ApiResponse(code = 404, message = "")
+            @ApiResponse(code = 200, message = MessageConstants.MSG_PRODUCT_FOUND),
+            @ApiResponse(code = 401, message = MessageConstants.MSG_AUTH_UNAUTHORIZED),
+            @ApiResponse(code = 404, message = MessageConstants.MSG_PRODUCT_NONE_FOUND)
+
     })
     public List<ProductDTO> find(ProductDTO params){
         ExampleMatcher matcher = ExampleMatcher
@@ -60,9 +62,9 @@ public class ProductController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("Salvar um novo produto")
     @ApiResponses({
-            @ApiResponse(code = 201, message = ""),
-            @ApiResponse(code = 400, message = ""),
-            @ApiResponse(code = 401, message = ""),
+            @ApiResponse(code = 201, message = MessageConstants.MSG_PRODUCT_SUCCESS),
+            @ApiResponse(code = 400, message = MessageConstants.MSG_VALIDATION_ERROR),
+            @ApiResponse(code = 401, message = MessageConstants.MSG_AUTH_UNAUTHORIZED),
     })
     public ProductDTO save(@RequestBody @Valid ProductDTO dto){
         return productService.save(dto);
@@ -72,11 +74,11 @@ public class ProductController {
     @ApiOperation("Atualizar um produto")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses({
-            @ApiResponse(code = 200, message = ""),
-            @ApiResponse(code = 201, message = ""),
-            @ApiResponse(code = 400, message = ""),
-            @ApiResponse(code = 401, message = ""),
-            @ApiResponse(code = 404, message = "")
+            @ApiResponse(code = 200, message = MessageConstants.MSG_PRODUCT_SUCCESS),
+            @ApiResponse(code = 201, message = MessageConstants.MSG_PRODUCT_SUCCESS),
+            @ApiResponse(code = 400, message = MessageConstants.MSG_VALIDATION_ERROR),
+            @ApiResponse(code = 401, message = MessageConstants.MSG_AUTH_UNAUTHORIZED),
+            @ApiResponse(code = 404, message = MessageConstants.MSG_PRODUCT_NOT_FOUND)
     })
     public void update( @PathVariable Long id,
                         @RequestBody @Valid ProductDTO dto){
@@ -94,10 +96,10 @@ public class ProductController {
     @ApiOperation("Excluir um produto")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiResponses({
-            @ApiResponse(code = 204, message = ""),
-            @ApiResponse(code = 400, message = ""),
-            @ApiResponse(code = 401, message = ""),
-            @ApiResponse(code = 404, message = "")
+            @ApiResponse(code = 204, message = MessageConstants.MSG_PRODUCT_SUCCESS),
+            @ApiResponse(code = 400, message = MessageConstants.MSG_VALIDATION_ERROR),
+            @ApiResponse(code = 401, message = MessageConstants.MSG_AUTH_UNAUTHORIZED),
+            @ApiResponse(code = 404, message = MessageConstants.MSG_PRODUCT_NOT_FOUND)
     })
     public void delete( @PathVariable Long id){
         productService.findById(id)

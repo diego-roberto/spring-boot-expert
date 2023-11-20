@@ -1,6 +1,6 @@
 package io.github.diegoroberto.service.implement;
 
-import io.github.diegoroberto.config.InternationalizationConfig;
+import io.github.diegoroberto.config.internationalization.InternationalizationConfig;
 import io.github.diegoroberto.domain.entity.Client;
 import io.github.diegoroberto.domain.entity.Order;
 import io.github.diegoroberto.domain.entity.OrderItem;

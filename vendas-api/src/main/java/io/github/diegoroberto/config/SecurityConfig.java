@@ -1,6 +1,6 @@
 package io.github.diegoroberto.config;
 
-import io.github.diegoroberto.constants.RoleConstants;
+import io.github.diegoroberto.constant.RoleConstants;
 import io.github.diegoroberto.security.jwt.JwtAuthFilter;
 import io.github.diegoroberto.security.jwt.JwtService;
 import io.github.diegoroberto.service.implement.UserServiceImpl;
